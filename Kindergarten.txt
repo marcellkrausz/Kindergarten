@@ -1,0 +1,62 @@
+Kindergarten 
+
+
+Main { 
+new kindergarten 
+kindergarten.simulateDay }
+
+
+
+
+Kindergarten class {
+
+list String -- activities []
+playBall
+dance
+sing
+draw
+
+simulateDay{
+for (int i = 0; i < 12 ; i++)
+
+}
+
+isChaos {
+list Child 
+if (isBlat >= 3)
+return true
+
+printDay (
+if (isChaos) print "Is fail" 
+else 
+print "Is good"
+
+
+Child abstract class {
+
+Private final String name 
+private int satisfied    if its 0 ---> isBlat true
+protected boolean isBlat : default false 
+
+play
+getter, setter 
+
+Cherfull class
+if ( playBall) satisfied +3
+if (dance) satisfied 0
+if (sing , draw ) satisfied - 1
+
+Musician class
+if ( sing ) satisfied +4 
+if ( dance ) satisfied 0
+if ( playBall , draw ) satisfied -1
+
+
+Cozy class 
+if (draw) satisfied +4
+if(sing ) 0
+if(dance) -1 
+if (playball) -2
+
+
+
