@@ -3,6 +3,5 @@ public class Main {
         Kindergarten kindergarten = new Kindergarten("random");
         kindergarten.simulateDay();
         kindergarten.printStatus();
-        kindergarten.isDayChaos();
+        }
     }
-}

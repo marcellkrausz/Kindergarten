@@ -5,7 +5,8 @@ import java.util.Random;
 public class Kindergarten {
 
     List<String> activities = new ArrayList<>();
-    List<Child> kindergartenGroup = new ArrayList<>();
+    List<Child> kindergartenChildList = new ArrayList<>();
+    List<KindergartenGroup> kindergartenGroups = new ArrayList<>();
 
     public Kindergarten() {
 
@@ -22,15 +23,25 @@ public class Kindergarten {
         activities.add("ball");
         activities.add("sing");
 
-        kindergartenGroup.add(new Cherfull("Jani", 2));
-        kindergartenGroup.add(new Musician("Pisti", 2));
-        kindergartenGroup.add(new Cherfull("Gábor", 2));
-        kindergartenGroup.add(new Cozy("Anna", 2));
-        kindergartenGroup.add(new Musician("Ádám", 2));
-        kindergartenGroup.add(new Cozy("Csilla", 2));
-        kindergartenGroup.add(new Cherfull("Adrien", 2));
 
+        kindergartenGroups.add(new KindergartenGroup("1"));
+        kindergartenGroups.add(new KindergartenGroup("2"));
+        kindergartenGroups.add(new KindergartenGroup("3"));
+
+        kindergartenChildList.add(new Cherfull("Jani", 2));
+        kindergartenChildList.add(new Musician("Pisti", 2));
+        kindergartenChildList.add(new Cherfull("Gábor", 2));
+        kindergartenChildList.add(new Cozy("Anna", 2));
+        kindergartenChildList.add(new Musician("Ádám", 2));
+        kindergartenChildList.add(new Cozy("Csilla", 2));
+        kindergartenChildList.add(new Cherfull("Adrien", 2));
+
+        for (int i = 0; i < kindergartenChildList.size(); i++) {
+            int grpNumber = randomGroup();
+            kindergartenGroups.get(grpNumber).add(kindergartenChildList.get(i));
+        }
     }
+
     public Kindergarten(String random) {
 
         activities.add(randomActivities());
@@ -42,50 +53,75 @@ public class Kindergarten {
         activities.add(randomActivities());
         activities.add(randomActivities());
 
+        kindergartenGroups.add(new KindergartenGroup("1"));
+        kindergartenGroups.add(new KindergartenGroup("2"));
+        kindergartenGroups.add(new KindergartenGroup("3"));
 
-        kindergartenGroup.add(new Cherfull("Jani", 2));
-        kindergartenGroup.add(new Musician("Pisti", 2));
-        kindergartenGroup.add(new Cherfull("Gábor", 2));
-        kindergartenGroup.add(new Cozy("Anna", 2));
-        kindergartenGroup.add(new Musician("Ádám", 2));
-        kindergartenGroup.add(new Cozy("Csilla", 2));
-        kindergartenGroup.add(new Cherfull("Adrien", 2));
+        kindergartenChildList.add(new Cherfull("Jani", 2));
+        kindergartenChildList.add(new Musician("Pisti", 2));
+        kindergartenChildList.add(new Cherfull("Gábor", 2));
+        kindergartenChildList.add(new Cozy("Anna", 2));
+        kindergartenChildList.add(new Musician("Ádám", 2));
+        kindergartenChildList.add(new Cozy("Csilla", 2));
+        kindergartenChildList.add(new Cherfull("Adrien", 2));
 
+        for (int i = 0; i < kindergartenChildList.size(); i++) {
+            int grpNumber = randomGroup();
+            kindergartenGroups.get(grpNumber).add(kindergartenChildList.get(i));
+        }
     }
 
     public void simulateDay() {
         for (int i = 0; i < activities.size(); i++) {
-            for (int j = 0; j < kindergartenGroup.size(); j++) {
-                kindergartenGroup.get(j).play(activities.get(i));
-             //   System.out.println(kindergartenGroup.get(j).getName() + " has " + kindergartenGroup.get(j).getSatisfied());
-             //   System.out.println(kindergartenGroup.get(j).isBlat());
+            for (int groupNumber = 0; groupNumber < kindergartenGroups.size(); groupNumber++) {
+                for (int k = 0; k < kindergartenGroups.get(groupNumber).size(); k++) {
+                    kindergartenGroups.get(groupNumber).get(k).play(activities.get(i));
+                    //   System.out.println(kindergartenGroup.get(j).getName() + " has " + kindergartenGroup.get(j).getSatisfied());
+                    //   System.out.println(kindergartenGroup.get(j).isBlat());
+                }
+            }
+            if (isDayChaos()) {
+                break;
             }
         }
     }
 
-    public void printStatus(){
-        for (int j = 0; j < kindergartenGroup.size(); j++) {
-            System.out.println(kindergartenGroup.get(j).getName() + " has satisfied " + kindergartenGroup.get(j).getSatisfied());
+    public void printStatus() {
+        for (int groupNumber = 0; groupNumber < kindergartenGroups.size(); groupNumber++) {
+            for (int j = 0; j < kindergartenGroups.get(groupNumber).size(); j++) {
+                System.out.println("\n " + kindergartenGroups.get(groupNumber).get(j).getName() + " has satisfied " + kindergartenGroups.get(groupNumber).get(j).getSatisfied());
+            }
         }
     }
 
-    public void isDayChaos() {
+    public boolean isDayChaos() {
         int childUnsatisfied = 0;
-        for (int i = 0; i < kindergartenGroup.size(); i++) {
-            if(kindergartenGroup.get(i).isBlat()) {
-                childUnsatisfied += 1;
-                System.out.println(childUnsatisfied);
+        for (int groupNumber = 0; groupNumber < kindergartenGroups.size(); groupNumber++) {
+            for (int j = 0; j < kindergartenGroups.get(groupNumber).size(); j++) {
+                Child child = kindergartenGroups.get(groupNumber).get(j);
+                if (child.isBlat()) {
+                    childUnsatisfied += 1;
+                    // System.out.println(childUnsatisfied);
+                }
             }
         }
         if (childUnsatisfied >= 3) {
             System.out.println("The day is in chaos!");
-        }else {
+            return true;
+        } else {
             System.out.println("The day is good!");
+            return false;
         }
     }
-    public String randomActivities(){
+
+    public String randomActivities() {
         String[] activities = new String[]{"ball", "draw", "sing", "dance"};
         Random random = new Random();
         return activities[random.nextInt(4)];
+    }
+
+    public int randomGroup() {
+        Random random = new Random();
+        return random.nextInt(3);
     }
 }
